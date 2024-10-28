@@ -1,0 +1,5 @@
+name: Cardinal
+version: ${version}
+main: org.evlis.cardinal.Cardinal
+api-version: '1.21'
+load: STARTUP
