@@ -12,7 +12,7 @@ import java.util.List;
 
 
 public class Scheduler {
-    public void DecayWorld(Plugin plugin) {
+    public void ShatterWorld(Plugin plugin) {
         GlobalRegionScheduler globalRegionScheduler = plugin.getServer().getGlobalRegionScheduler();
 
         globalRegionScheduler.runAtFixedRate(plugin, (t)-> {

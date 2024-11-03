@@ -8,6 +8,7 @@ public final class Cardinal extends JavaPlugin {
     @Override
     public void onEnable() {
         Scheduler schedule = new Scheduler();
+        schedule.ShatterWorld(this);
     }
 
     @Override
