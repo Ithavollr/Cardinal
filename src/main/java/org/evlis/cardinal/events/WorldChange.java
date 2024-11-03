@@ -8,7 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.evlis.cardinal.GlobalVars;
 
-public class PlayerWorldChange implements Listener {
+public class WorldChange implements Listener {
     @EventHandler
     public void onChangeWorlds(PlayerChangedWorldEvent event) {
         Player player = event.getPlayer();
