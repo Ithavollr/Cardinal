@@ -1,5 +1,6 @@
 package org.evlis.cardinal.events;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Statistic;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -16,10 +17,11 @@ public class WorldChange implements Listener {
 
         // automatically enable fly in the lobby
         if (world.getName().equals("lobby004")) {
-            player.setFlying(true);
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "fly " + player.getName());
+            //player.setFlying(true);
         }
         // set insomnia upon entering a shattered world
-        if (GlobalVars.lostWorlds.contains(world.getName())) {
+        if (GlobalVars.shatteredWorlds.contains(world.getName())) {
             player.incrementStatistic(Statistic.TIME_SINCE_REST, 72000 );
         }
     }

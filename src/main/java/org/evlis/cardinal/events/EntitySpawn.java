@@ -12,12 +12,15 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.evlis.cardinal.GlobalVars;
 
+import java.util.Comparator;
+import java.util.Optional;
+
 public class EntitySpawn implements Listener {
     @EventHandler
     public void onEntitySpawn(EntitySpawnEvent event) {
         Entity entity = event.getEntity();
         World world = entity.getWorld();
-        if (GlobalVars.lostWorlds.contains(world.getName())) {
+        if (GlobalVars.shatteredWorlds.contains(world.getName())) {
             if (entity instanceof Monster monster) { // Check if the entity is a hostile mob
                 switch (monster) {
                     case Creeper creeper -> creeper.setPowered(true);
@@ -40,10 +43,19 @@ public class EntitySpawn implements Listener {
                         Location loc = event.getLocation();
                         loc.getWorld().spawnEntity(loc, EntityType.PILLAGER);
                     }
-                    case Phantom phantom -> {
+                    case Enderman enderman -> {
                         event.setCancelled(true);
                         Location loc = event.getLocation();
                         loc.getWorld().spawnEntity(loc, EntityType.VEX);
+                    } case Skeleton skeleton -> {
+                        Optional<LivingEntity> nearestEntity = skeleton.getNearbyEntities(20, 20, 20).stream()
+                                .filter(nearEntity -> nearEntity instanceof LivingEntity)
+                                .map(nearEntity -> (LivingEntity) nearEntity)
+                                .min(Comparator.comparingDouble(nearEntity ->
+                                        nearEntity.getLocation().distanceSquared(skeleton.getLocation())
+                                ));
+                        // Set the skeleton's target to the nearest living entity, if found
+                        nearestEntity.ifPresent(monster::setTarget);
                     }
                     default -> {
                     }

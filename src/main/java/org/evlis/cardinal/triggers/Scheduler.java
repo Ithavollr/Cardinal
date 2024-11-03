@@ -21,10 +21,26 @@ public class Scheduler {
                 List<Player> playerList = world.getPlayers();
                 if (playerList.isEmpty()) {
                     continue; // Skip worlds with no active players
-                } else if (GlobalVars.lostWorlds.contains(world.getName())){
+                }
+                if (GlobalVars.shatteredWorlds.contains(world.getName())){
                     world.setTime(18000);
                 }
             }
-        }, 1L, 20L); // Check every 20 ticks (1 second)
+        }, 1L, 2L); // Check every 2 ticks
+        globalRegionScheduler.runAtFixedRate(plugin, (t)-> {
+            for (World world : Bukkit.getWorlds()) {
+                // Check if the world has active players
+                List<Player> playerList = world.getPlayers();
+                if (playerList.isEmpty()) {
+                    continue; // Skip worlds with no active players
+                }
+                if (GlobalVars.shatteredWorlds.contains(world.getName())){
+                    world.setStorm(true);
+                    world.setWeatherDuration(1400);
+                    world.setThundering(true);
+                    world.setThunderDuration(1400);
+                }
+            }
+        }, 1L, 1200L); // Check every minute
     }
 }

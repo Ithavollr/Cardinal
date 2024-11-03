@@ -4,7 +4,6 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerPortalEvent;
 import org.evlis.cardinal.GlobalVars;
 
@@ -16,7 +15,7 @@ public class PlayerPortal implements Listener {
         World.Environment destinationEnv = event.getTo().getWorld().getEnvironment();
 
         // Check if the player is in the restricted world and trying to go to the Nether
-        if (GlobalVars.lostWorlds.contains(world.getName()) &&
+        if (GlobalVars.shatteredWorlds.contains(world.getName()) &&
                 destinationEnv == World.Environment.NETHER) {
             // Cancel the portal event to prevent travel
             event.setCancelled(true);
