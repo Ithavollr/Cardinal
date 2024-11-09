@@ -23,6 +23,10 @@ public class WorldChange implements Listener {
         // set insomnia upon entering a shattered world
         if (GlobalVars.shatteredWorlds.contains(world.getName())) {
             player.incrementStatistic(Statistic.TIME_SINCE_REST, 72000 );
+            world.setStorm(true);
+            world.setWeatherDuration(1400);
+            world.setThundering(true);
+            world.setThunderDuration(1400);
         }
     }
 }

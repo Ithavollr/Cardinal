@@ -19,7 +19,7 @@ public class PlayerPortal implements Listener {
                 destinationEnv == World.Environment.NETHER) {
             // Cancel the portal event to prevent travel
             event.setCancelled(true);
-            player.sendMessage("§cThis world is shattered!! Nether portals are broken, you cannot escape!");
+            player.sendMessage("§clSYSTEM:§roc This world is shattered!! Nether portals are broken, you cannot escape!");
         }
     }
 }
