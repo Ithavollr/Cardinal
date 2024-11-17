@@ -1,13 +1,10 @@
 package org.evlis.cardinal.events;
 
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
-import org.evlis.cardinal.GlobalVars;
 
 public class PlayerTeleport implements Listener {
     @EventHandler
@@ -23,7 +20,8 @@ public class PlayerTeleport implements Listener {
                 event.setCancelled(true);
                 player.sendMessage("§clSYSTEM:§roc You don't have enough experience to travel that far!");
             } else {
-                player.setExp((float)(exp - distance));
+                player.setExperienceLevelAndProgress(exp  - distance);
+                player.sendMessage("§6Teleport cost: " + distance + "xp");
             }
         }
     }
