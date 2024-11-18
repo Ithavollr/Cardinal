@@ -1,6 +1,7 @@
 package org.evlis.cardinal.events;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -19,21 +20,21 @@ public class PlayerInteract implements Listener {
         if (event.getClickedBlock() == null || event.getClickedBlock().getType() != Material.ENCHANTING_TABLE) {
             return;
         } else { // try to craft a bottle o' enchanting
-            Player player = event.getPlayer();
-            craftXPBottle(player);
+            craftXPBottle(event);
         }
     }
 
-    private void craftXPBottle(Player player) {
+    private void craftXPBottle(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
         ItemStack item = player.getInventory().getItemInMainHand();
         // Check if the item in hand is a water bottle
-        if (item.getType() != Material.POTION || !isWaterBottle(item)) {
+        if (item.getType() != Material.GLASS_BOTTLE) {
             return;
         }
         int exp = player.calculateTotalExperiencePoints();
         // Check if the player has at least 11 XP
         if (exp < 11) {
-            player.sendMessage("§clSYSTEM:§roc You don't have enough experience to enchant!");
+            player.sendMessage("§clSYSTEM:§roc You don't have enough experience to fill the bottle!");
             return;
         }
         // Deduct 11 XP
@@ -41,12 +42,6 @@ public class PlayerInteract implements Listener {
         // Replace one water bottle with one bottle of enchanting
         item.setAmount(item.getAmount() - 1); // Reduce the water bottle stack by 1
         player.getInventory().addItem(new ItemStack(Material.EXPERIENCE_BOTTLE)); // Add a bottle of enchanting
-    }
-
-    // Helper method to check if the potion is a water bottle
-    private boolean isWaterBottle(ItemStack item) {
-        ItemMeta meta = item.getItemMeta();
-        if (!(meta instanceof org.bukkit.inventory.meta.PotionMeta potionMeta)) return false;
-        return potionMeta.getBasePotionType() == org.bukkit.potion.PotionType.WATER;
+        event.setCancelled(true);
     }
 }
