@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'org.evlis'
-version = '0.2.2'
+version = '0.3.0'
 
 def targetJavaVersion = 21
 
@@ -19,16 +19,23 @@ repositories {
         name = "sonatype"
         url = "https://oss.sonatype.org/content/groups/public/"
     }
-    maven {
+    maven { // https://github.com/aikar/commands/wiki
         name = "aikars-framework"
         url = "https://repo.aikar.co/content/groups/aikar/"
+    }
+    maven { // https://github.com/mfnalex/ChestSort/blob/master/HOW_TO_USE_API.md
+        name = "jeff-media-public"
+        url = "https://repo.jeff-media.com/public/"
     }
 }
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT")
     implementation("co.aikar:acf-paper:0.5.1-SNAPSHOT")
-    testImplementation 'com.github.seeseemelk:MockBukkit-v1.21:3.133.1'
+    implementation("org.slf4j:slf4j-simple:2.0.16")
+    implementation("de.jeff_media:ChestSortAPI:13.0.0-SNAPSHOT")
+    testImplementation("org.mockito:mockito-core:5.14.2")
+    testImplementation('org.mockbukkit.mockbukkit:mockbukkit-v1.21:4.0.0')
     testImplementation('org.junit.jupiter:junit-jupiter-api:5.10.0')
     testRuntimeOnly('org.junit.jupiter:junit-jupiter-engine:5.10.0')
 }
@@ -62,7 +69,10 @@ tasks {
     }
     test {
         useJUnitPlatform()
-        testLogging { events "passed", "skipped", "failed" }
+        testLogging {
+            events "passed", "skipped", "failed"
+            showCauses true
+        }
     }
     runServer {
         // Configure the Minecraft version for our task.
@@ -70,7 +80,17 @@ tasks {
         // Your plugin's jar (or shadowJar if present) will be used automatically.
         minecraftVersion("1.21.1")
         downloadPlugins {
+            // auto plugin that stops server 3 seconds after startup finishes
             github("Ifiht", "AutoStop", "v1.1.0", "AutoStop-1.1.0.jar")
+            // +++ FOLIA SUPPORTED +++
+            // Modrinth Plugins
+            modrinth("chunky", "1.4.28")
+            modrinth("decentholograms", "2.8.11")
+            modrinth("lunamatic", "1.0.1")
+            modrinth("toolstats", "1.8.2")
+            // +++ NON-SUPPORTED +++
+            //modrinth("luckperms", "v5.4.131-bukkit")
+            modrinth("auraskills", "2.2.4")
         }
     }
 }
