@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'org.evlis'
-version = '0.3.1'
+version = '0.3.2'
 
 def targetJavaVersion = 21
 
@@ -88,6 +88,7 @@ tasks {
             hangar("DeathChest", "2.2.7")
             modrinth("decentholograms", "2.8.11")
             url("https://github.com/Ifiht/Cardinal/raw/refs/heads/main/plugin_jars/mc1-21-1/DHS-0.6.1_for_MC-1.21.1.jar")
+            modrinth("discordsrv", "1.28.0")
             modrinth("interactionvisualizer", "1.10.16")
             url("https://github.com/Ifiht/Cardinal/raw/refs/heads/main/plugin_jars/mc1-21-1/LuckPerms-Bukkit-5.4.131.jar")
             modrinth("lunamatic", "1.0.1")
