@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.command.CommandSender;
 
 @CommandAlias("tppos")
-@CommandPermission("cardinal.command.tppos") // Adjust permission as needed
+//@CommandPermission("cardinal.command.tppos")
 public class Cmd_tppos extends BaseCommand {
 
     private static final int WORLD_LIMIT = 30000000;

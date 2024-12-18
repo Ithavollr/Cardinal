@@ -40,7 +40,7 @@ jobs:
       run: ./gradlew cleanPaperPluginsCache
 
     - name: Run the Paper Server
-      run: ./gradlew runServer
+      run: ./gradlew runServerTest
 
     - name: Check the Server Logs
       run: ./gradlew checkServerLogs
