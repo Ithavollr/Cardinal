@@ -3,7 +3,7 @@ package org.evlis.cardinal;
 import co.aikar.commands.PaperCommandManager;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.evlis.cardinal.commands.Cmd_tppos;
+import org.evlis.cardinal.commands.*;
 import org.evlis.cardinal.events.*;
 import org.evlis.cardinal.triggers.Scheduler;
 
@@ -38,7 +38,7 @@ public class Cardinal extends JavaPlugin {
 
     public void registerCommands() {
         PaperCommandManager manager = new PaperCommandManager(this);
-        manager.registerCommand(new Cmd_tppos());
+        manager.registerCommand(new CoreCommands(this));
     }
 
     @Override

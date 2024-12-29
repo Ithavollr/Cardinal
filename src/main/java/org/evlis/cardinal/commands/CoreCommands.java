@@ -1,19 +1,60 @@
 package org.evlis.cardinal.commands;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.*;
 import co.aikar.commands.InvalidCommandArgument;
-
+import co.aikar.commands.annotation.*;
 import org.bukkit.Location;
 import org.bukkit.Particle;
-import org.bukkit.entity.Player;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
-@CommandAlias("tppos")
-//@CommandPermission("cardinal.command.tppos")
-public class Cmd_tppos extends BaseCommand {
+@CommandAlias("cardinal")
+//@CommandPermission("cardinal.command.*")
+public class CoreCommands extends BaseCommand {
+
+    private final Plugin plugin; // stores the reference to our main plugin
+
+    public CoreCommands(Plugin plugin) {
+        this.plugin = plugin;
+    }
 
     private static final int WORLD_LIMIT = 30000000;
+
+    @Default
+    public void defCommand(CommandSender sender) {
+        // Display GlobalVars status
+        sender.sendMessage("You are running Cardinal v" + plugin.getPluginMeta().getVersion());
+        sender.sendMessage("Available commands: fly, tppos");
+    }
+
+    @Subcommand("fly")
+    @Description("Toggle fly on or off for a player.")
+    public void onFly(CommandSender sender, @Optional Player target) {
+        // Determine the target player
+        Player playerToToggle;
+        if (target == null) {
+            if (!(sender instanceof Player)) {
+                sender.sendMessage("You must specify a player when running this command from the console.");
+                return;
+            }
+            playerToToggle = (Player) sender;
+        } else {
+            playerToToggle = target;
+        }
+
+        // Toggle flight ability
+        boolean isFlying = playerToToggle.getAllowFlight();
+        playerToToggle.setAllowFlight(!isFlying);
+        playerToToggle.setFlying(!isFlying); // Also toggle the flying state if currently flying
+
+        // Feedback to the user
+        String status = isFlying ? "disabled" : "enabled";
+        sender.sendMessage("Flying " + status + " for " + playerToToggle.getName() + ".");
+        if (target != null && sender != playerToToggle) {
+            playerToToggle.sendMessage("Flying has been " + status + " by " + sender.getName() + ".");
+        }
+    }
 
     @Default
     @Syntax("<x> <y> <z> [yaw]")
@@ -58,6 +99,7 @@ public class Cmd_tppos extends BaseCommand {
         }
     }
 
+    //=============/ HELPER FUNCTIONS /=============//
     /**
      * Displays a portal-like effect using particles.
      *
