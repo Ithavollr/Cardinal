@@ -36,8 +36,10 @@ jobs:
     - name: Build with Gradle Wrapper
       run: ./gradlew build
 
-    - name: Clean the Server Plugins Cache
-      run: ./gradlew cleanPaperPluginsCache
+    - name: Inject Bot Token
+      run: ./gradlew injectBotToken
+      env:
+        BOT_API_TOKEN: ${{ secrets.BOT_API_TOKEN }}
 
     - name: Run the Paper Server
       run: ./gradlew runServerTest
