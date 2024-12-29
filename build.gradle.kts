@@ -1,3 +1,4 @@
+import org.yaml.snakeyaml.Yaml
 import xyz.jpenilla.runpaper.task.RunServer
 import java.net.URI
 
@@ -8,7 +9,7 @@ plugins {
 }
 
 group = "org.evlis"
-version = "0.4.0"
+version = "0.4.2"
 
 val targetJavaVersion = 21
 
@@ -47,6 +48,17 @@ java {
     sourceCompatibility = JavaVersion.toVersion(targetJavaVersion)
     targetCompatibility = JavaVersion.toVersion(targetJavaVersion)
     toolchain.languageVersion.set(JavaLanguageVersion.of(targetJavaVersion))
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        // Add dependencies for use in gradle itself
+        classpath("org.yaml:snakeyaml:2.3")
+    }
 }
 
 // Main Plugin List
@@ -108,6 +120,7 @@ tasks {
     }
     runServer {
         // Keep runServer task to inherit project plugin
+        downloadPlugins.from(prodPlugins)
         minecraftVersion("1.21.1")
     }
 }
@@ -115,6 +128,7 @@ tasks {
 // Test Paper run & immediately shut down, for github actions
 tasks.register<RunServer>("runServerTest") {
     dependsOn(tasks.shadowJar)
+    dependsOn(tasks.named("injectBotToken"))
     minecraftVersion("1.21.1")
     downloadPlugins.from(testPlugins)
     pluginJars.from(tasks.shadowJar)
@@ -122,6 +136,7 @@ tasks.register<RunServer>("runServerTest") {
 // Start a local test server for login & manual testing
 tasks.register<RunServer>("runServerInteractive") {
     dependsOn(tasks.shadowJar)
+    dependsOn(tasks.named("injectBotToken"))
     minecraftVersion("1.21.1")
     downloadPlugins.from(prodPlugins)
     pluginJars.from(tasks.shadowJar)
@@ -130,6 +145,27 @@ tasks.register<RunServer>("runServerInteractive") {
 // Start a local Folia server for manual testing
 runPaper.folia.registerTask {
     minecraftVersion("1.20.6")
+}
+tasks.register("injectBotToken") {
+    doLast {
+        val token = System.getenv("BOT_API_TOKEN")
+            ?: error("Environment variable BOT_API_TOKEN is not set.")
+
+        val yamlFile = file("run/plugins/DiscordSRV/config.yml")
+        val yaml = Yaml()
+
+        // Parse YAML
+        val data: MutableMap<String, Any> = yaml.load(yamlFile.readText())
+
+        // Update the token value
+        data["BotToken"] = token
+        val channels = data["Channels"] as? MutableMap<String, String>
+            ?: error("'Channels' key is missing or not a map in the YAML file.")
+        channels["global"] = "1320959908581081119"
+
+        // Write the YAML back
+        yamlFile.writeText(yaml.dump(data))
+    }
 }
 
 tasks.register("checkServerLogs") {

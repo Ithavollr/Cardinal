@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 @CommandAlias("cardinal")
-//@CommandPermission("cardinal.command.*")
+@CommandPermission("cardinal.command.*")
 public class CoreCommands extends BaseCommand {
 
     private final Plugin plugin; // stores the reference to our main plugin
