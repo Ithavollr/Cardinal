@@ -36,10 +36,8 @@ jobs:
     - name: Build with Gradle Wrapper
       run: ./gradlew build
 
-    - name: Inject Bot Token
-      run: ./gradlew injectBotToken
-      env:
-        BOT_API_TOKEN: ${{ secrets.BOT_API_TOKEN }}
+    - name: Set BOT_API_TOKEN environment variable
+      run: echo "BOT_API_TOKEN=${{ secrets.BOT_API_TOKEN }}" >> $GITHUB_ENV
 
     - name: Run the Paper Server
       run: ./gradlew runServerTest
