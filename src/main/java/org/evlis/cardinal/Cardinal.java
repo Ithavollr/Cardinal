@@ -17,7 +17,6 @@ public class Cardinal extends JavaPlugin {
 
     public EntitySpawn entitySpawn;
     public PlayerPortal playerPortal;
-    public PlayerTeleport playerTeleport;
     public PlayerInteract playerInteract;
     public WorldChange worldChange;
 
@@ -28,12 +27,13 @@ public class Cardinal extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        getLogger().info("Starting Cardinal on Minecraft version: " + Bukkit.getVersion());
+        getLogger().info("And Bukkit version: " + Bukkit.getBukkitVersion());
         // Start Scheduler & any Shattered Worlds
         Scheduler schedule = new Scheduler();
         schedule.ShatterWorld(this);
         // Initialize Event Variables
         entitySpawn = new EntitySpawn();
-        playerTeleport = new PlayerTeleport();
         playerInteract = new PlayerInteract();
         playerPortal = new PlayerPortal();
         worldChange = new WorldChange();
@@ -64,7 +64,6 @@ public class Cardinal extends JavaPlugin {
         // Register Event Listeners
         Bukkit.getServer().getPluginManager().registerEvents(entitySpawn, this);
         Bukkit.getServer().getPluginManager().registerEvents(playerPortal, this);
-        Bukkit.getServer().getPluginManager().registerEvents(playerTeleport, this);
         Bukkit.getServer().getPluginManager().registerEvents(playerInteract, this);
         Bukkit.getServer().getPluginManager().registerEvents(worldChange, this);
         Bukkit.getServer().getPluginManager().registerEvents(new TrimEvents(), this);
@@ -75,6 +74,8 @@ public class Cardinal extends JavaPlugin {
     public void registerCommands() {
         PaperCommandManager manager = new PaperCommandManager(this);
         manager.registerCommand(new CoreCommands(this));
+        manager.registerCommand(new Cmd_fly());
+        manager.registerCommand(new Cmd_tppos());
     }
 
     @Override
