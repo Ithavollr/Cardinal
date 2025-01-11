@@ -125,7 +125,7 @@ tasks {
     }
 }
 
-// Test Paper run & immediately shut down, for github actions
+// Test PaperMC run & immediately shut down, for github actions
 tasks.register<RunServer>("runServerTest") {
     dependsOn(tasks.shadowJar)
     dependsOn(tasks.named("injectBotToken"))
@@ -133,7 +133,7 @@ tasks.register<RunServer>("runServerTest") {
     downloadPlugins.from(testPlugins)
     pluginJars.from(tasks.shadowJar)
 }
-// Start a local test server for login & manual testing
+// Start a local PaperMC test server for login & manual testing
 tasks.register<RunServer>("runServerInteractive") {
     dependsOn(tasks.shadowJar)
     dependsOn(tasks.named("injectBotToken"))
