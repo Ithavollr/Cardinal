@@ -82,7 +82,8 @@ val prodPlugins = runPaper.downloadPluginsSpec {
     modrinth("seemore", "1.0.2")
     modrinth("simple-voice-chat", "bukkit-2.5.26")
     url("https://cdn.modrinth.com/data/PFb7ZqK6/versions/2WtLC9mv/squaremap-paper-mc1.21.1-1.3.2.jar")
-    modrinth("toolstats", "1.8.2")
+    modrinth("terra", "6.5.1-BETA-bukkit")
+    modrinth("toolstats", "1.8.5")
     url("https://cdn.modrinth.com/data/1u6JkXh5/versions/ecqqLKUO/worldedit-bukkit-7.3.8.jar")
     modrinth("worldguard", "7.0.12")
 }
