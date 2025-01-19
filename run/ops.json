@@ -4,5 +4,11 @@
     "name": "Ainz",
     "level": 4,
     "bypassesPlayerLimit": true
+  },
+  {
+    "uuid": "af12267d-f57e-3a42-8778-e93820c892c0",
+    "name": "Ariadne",
+    "level": 4,
+    "bypassesPlayerLimit": true
   }
 ]

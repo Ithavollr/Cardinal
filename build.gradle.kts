@@ -68,7 +68,7 @@ val prodPlugins = runPaper.downloadPluginsSpec {
     url("https://github.com/Ifiht/Cardinal/raw/refs/heads/main/plugin_jars/mc1-21-1/ChestSort-14.1.2.jar")
     modrinth("chunky", "1.4.28")
     hangar("DeathChest", "2.2.7")
-    modrinth("decentholograms", "2.8.11")
+    modrinth("decentholograms", "2.8.12")
     url("https://github.com/Ifiht/Cardinal/raw/refs/heads/main/plugin_jars/mc1-21-1/DHS-0.6.1_for_MC-1.21.1.jar")
     modrinth("discordsrv", "1.28.0")
     modrinth("interactionvisualizer", "1.18.11")
