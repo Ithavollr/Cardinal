@@ -122,7 +122,7 @@ tasks {
     runServer {
         // Keep runServer task to inherit project plugin
         downloadPlugins.from(prodPlugins)
-        minecraftVersion("1.21.1")
+        minecraftVersion("1.21.4")
     }
 }
 
@@ -130,7 +130,7 @@ tasks {
 tasks.register<RunServer>("runServerTest") {
     dependsOn(tasks.shadowJar)
     dependsOn(tasks.named("injectBotToken"))
-    minecraftVersion("1.21.1")
+    minecraftVersion("1.21.4")
     downloadPlugins.from(testPlugins)
     pluginJars.from(tasks.shadowJar)
 }
@@ -138,7 +138,7 @@ tasks.register<RunServer>("runServerTest") {
 tasks.register<RunServer>("runServerInteractive") {
     dependsOn(tasks.shadowJar)
     dependsOn(tasks.named("injectBotToken"))
-    minecraftVersion("1.21.1")
+    minecraftVersion("1.21.4")
     downloadPlugins.from(prodPlugins)
     pluginJars.from(tasks.shadowJar)
 }

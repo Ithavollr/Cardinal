@@ -1,13 +1,13 @@
 [
   {
-    "uuid": "371042d9-c50e-3d59-8c2c-1df553056625",
-    "name": "Ainz",
+    "uuid": "af12267d-f57e-3a42-8778-e93820c892c0",
+    "name": "Ariadne",
     "level": 4,
     "bypassesPlayerLimit": true
   },
   {
-    "uuid": "af12267d-f57e-3a42-8778-e93820c892c0",
-    "name": "Ariadne",
+    "uuid": "371042d9-c50e-3d59-8c2c-1df553056625",
+    "name": "Ainz",
     "level": 4,
     "bypassesPlayerLimit": true
   }
