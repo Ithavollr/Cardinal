@@ -70,8 +70,8 @@ val prodPlugins = runPaper.downloadPluginsSpec {
     hangar("DeathChest", "2.2.7")
     modrinth("decentholograms", "2.8.12")
     url("https://github.com/Ifiht/Cardinal/raw/refs/heads/main/plugin_jars/mc1-21-1/DHS-0.6.1_for_MC-1.21.1.jar")
-    modrinth("discordsrv", "1.28.0")
-    modrinth("interactionvisualizer", "1.18.11")
+    modrinth("discordsrv", "1.29.0")
+    modrinth("interactionvisualizer", "1.18.13")
     url("https://github.com/Ifiht/Cardinal/raw/refs/heads/main/plugin_jars/mc1-21-1/LuckPerms-Bukkit-5.4.131.jar")
     modrinth("lunamatic", "1.0.1")
     hangar("multiverse-core", "4.3.14")
@@ -84,8 +84,8 @@ val prodPlugins = runPaper.downloadPluginsSpec {
     url("https://cdn.modrinth.com/data/PFb7ZqK6/versions/2WtLC9mv/squaremap-paper-mc1.21.1-1.3.2.jar")
     modrinth("terra", "6.5.1-BETA-bukkit")
     modrinth("toolstats", "1.8.5")
-    url("https://cdn.modrinth.com/data/1u6JkXh5/versions/ecqqLKUO/worldedit-bukkit-7.3.8.jar")
-    modrinth("worldguard", "7.0.12")
+    url("https://cdn.modrinth.com/data/1u6JkXh5/versions/4jRlujfz/worldedit-bukkit-7.3.10.jar")
+    modrinth("worldguard", "7.0.13-beta-2")
 }
 
 // Plugin List for automated testing
