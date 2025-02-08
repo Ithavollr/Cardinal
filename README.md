@@ -5,6 +5,8 @@
 
 Master plugin for Ithavollr. As time goes on, more of the plugin deps below will be merged within #amoeba 🦠
 
+_For config files, use `git update-index --skip-worktree <file_name>` to ignore future changes!!_
+
 ## Current Plugins:
 | Plugin                                                             | Version | Folia Support? | Description                                                    | Gradle build string                                                                                              |
 |--------------------------------------------------------------------|---------|----------------|----------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|

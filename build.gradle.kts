@@ -81,7 +81,7 @@ val prodPlugins = runPaper.downloadPluginsSpec {
     url("https://github.com/Ifiht/OpeNLogin/releases/download/v4.0.0/OpenLogin-4.0.0.jar")
     modrinth("seemore", "1.0.2")
     modrinth("simple-voice-chat", "bukkit-2.5.26")
-    url("https://cdn.modrinth.com/data/PFb7ZqK6/versions/2WtLC9mv/squaremap-paper-mc1.21.1-1.3.2.jar")
+    url("https://cdn.modrinth.com/data/PFb7ZqK6/versions/DB47ULQI/squaremap-paper-mc1.21.4-1.3.4.jar")
     modrinth("terra", "6.5.1-BETA-bukkit")
     modrinth("toolstats", "1.8.5")
     url("https://cdn.modrinth.com/data/1u6JkXh5/versions/4jRlujfz/worldedit-bukkit-7.3.10.jar")

@@ -10,30 +10,6 @@
 # Discord: https://www.spigotmc.org/go/discord
 # Forums: http://www.spigotmc.org/
 
-settings:
-  debug: false
-  sample-count: 12
-  bungeecord: false
-  save-user-cache-on-stop-only: false
-  moved-too-quickly-multiplier: 10.0
-  moved-wrongly-threshold: 0.0625
-  user-cache-size: 1000
-  player-shuffle: 0
-  attribute:
-    maxAbsorption:
-      max: 2048.0
-    maxHealth:
-      max: 2048.0
-    movementSpeed:
-      max: 2048.0
-    attackDamage:
-      max: 2048.0
-  netty-threads: 4
-  timeout-time: 60
-  restart-on-crash: true
-  restart-script: ./start.sh
-  log-villager-deaths: true
-  log-named-deaths: true
 messages:
   whitelist: You are not whitelisted on this server!
   unknown-command: Unknown command. Type "/help" for help.
@@ -41,53 +17,65 @@ messages:
   outdated-client: Outdated client! Please use {0}
   outdated-server: Outdated server! I'm still on {0}
   restart: Server is restarting
+settings:
+  bungeecord: false
+  save-user-cache-on-stop-only: false
+  sample-count: 12
+  player-shuffle: 0
+  user-cache-size: 1000
+  moved-wrongly-threshold: 0.0625
+  moved-too-quickly-multiplier: 10.0
+  timeout-time: 60
+  restart-on-crash: true
+  restart-script: ./start.sh
+  netty-threads: 4
+  attribute:
+    maxAbsorption:
+      max: 2048.0
+    maxHealth:
+      max: 1024.0
+    movementSpeed:
+      max: 1024.0
+    attackDamage:
+      max: 2048.0
+  log-villager-deaths: true
+  log-named-deaths: true
+  debug: false
 commands:
   tab-complete: 0
   send-namespaced: true
-  silent-commandblock-console: false
   log: true
   spam-exclusions:
-  - /skill
+    - /skill
+  silent-commandblock-console: false
   replace-commands:
-  - setblock
-  - summon
-  - testforblock
-  - tellraw
+    - setblock
+    - summon
+    - testforblock
+    - tellraw
 advancements:
   disable-saving: false
   disabled:
-  - minecraft:story/disabled
-players:
-  disable-saving: false
-config-version: 12
-stats:
-  disable-saving: false
-  forced-stats: {}
+    - minecraft:story/disabled
 world-settings:
   default:
     below-zero-generation-in-existing-chunks: true
+    view-distance: default
+    simulation-distance: default
+    thunder-chance: 100000
     merge-radius:
       item: 0.5
       exp: -1.0
-    ticks-per:
-      hopper-transfer: 8
-      hopper-check: 1
-    hopper-amount: 1
-    hopper-can-load-chunks: false
-    hunger:
-      jump-walk-exhaustion: 0.05
-      jump-sprint-exhaustion: 0.2
-      combat-exhaustion: 0.1
-      regen-exhaustion: 6.0
-      swim-multiplier: 0.01
-      sprint-multiplier: 0.1
-      other-multiplier: 0.0
+    mob-spawn-range: 8
+    item-despawn-rate: 6000
     arrow-despawn-rate: 1200
     trident-despawn-rate: 1200
-    mob-spawn-range: 8
-    thunder-chance: 100000
-    item-despawn-rate: 6000
+    zombie-aggressive-towards-villager: true
     nerf-spawner-mobs: false
+    enable-zombie-pigmen-portal-spawns: true
+    wither-spawn-sound-radius: 0
+    end-portal-sound-radius: 0
+    hanging-tick-frequency: 100
     unload-frozen-chunks: false
     growth:
       cactus-modifier: 100
@@ -112,14 +100,6 @@ world-settings:
       cavevines-modifier: 100
       glowberry-modifier: 100
       pitcherplant-modifier: 100
-    entity-tracking-range:
-      players: 128
-      animals: 96
-      monsters: 96
-      misc: 96
-      display: 128
-      other: 64
-    max-tnt-per-tick: 100
     entity-activation-range:
       animals: 32
       monsters: 32
@@ -146,6 +126,19 @@ world-settings:
       villagers-active-for-panic: true
       tick-inactive-villagers: true
       ignore-spectators: false
+    entity-tracking-range:
+      players: 128
+      animals: 96
+      monsters: 96
+      misc: 96
+      display: 128
+      other: 64
+    ticks-per:
+      hopper-transfer: 8
+      hopper-check: 1
+    hopper-amount: 1
+    hopper-can-load-chunks: false
+    dragon-death-sound-radius: 0
     seed-village: 10387312
     seed-desert: 14357617
     seed-igloo: 14357618
@@ -167,17 +160,22 @@ world-settings:
     seed-buriedtreasure: 10387320
     seed-mineshaft: default
     seed-stronghold: default
+    hunger:
+      jump-walk-exhaustion: 0.05
+      jump-sprint-exhaustion: 0.2
+      combat-exhaustion: 0.1
+      regen-exhaustion: 6.0
+      swim-multiplier: 0.01
+      sprint-multiplier: 0.1
+      other-multiplier: 0.0
+    max-tnt-per-tick: 100
     max-tick-time:
       tile: 50
       entity: 50
-    simulation-distance: default
-    view-distance: default
-    zombie-aggressive-towards-villager: true
-    enable-zombie-pigmen-portal-spawns: true
-    hanging-tick-frequency: 100
-    wither-spawn-sound-radius: 0
-    end-portal-sound-radius: 0
-    dragon-death-sound-radius: 0
     verbose: false
-  worldeditregentempworld:
-    verbose: false
+players:
+  disable-saving: false
+config-version: 12
+stats:
+  disable-saving: false
+  forced-stats: {}
