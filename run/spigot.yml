@@ -46,17 +46,17 @@ commands:
   send-namespaced: true
   log: true
   spam-exclusions:
-    - /skill
+  - /skill
   silent-commandblock-console: false
   replace-commands:
-    - setblock
-    - summon
-    - testforblock
-    - tellraw
+  - setblock
+  - summon
+  - testforblock
+  - tellraw
 advancements:
   disable-saving: false
   disabled:
-    - minecraft:story/disabled
+  - minecraft:story/disabled
 world-settings:
   default:
     below-zero-generation-in-existing-chunks: true
@@ -172,6 +172,8 @@ world-settings:
     max-tick-time:
       tile: 50
       entity: 50
+    verbose: false
+  worldeditregentempworld:
     verbose: false
 players:
   disable-saving: false
