@@ -27,3 +27,6 @@ run/*
 # IntelliJ
 out/
 .idea/
+
+# OS-specific files
+.DS_Store
