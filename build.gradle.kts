@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "org.evlis"
-version = "0.5.1"
+version = "0.5.2"
 
 val targetJavaVersion = 21
 
@@ -34,7 +34,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
     implementation("co.aikar:acf-paper:0.5.1-SNAPSHOT")
     implementation("org.slf4j:slf4j-simple:2.0.16")
     implementation("de.jeff_media:ChestSortAPI:13.0.0-SNAPSHOT")
@@ -73,16 +73,16 @@ val prodPlugins = runPaper.downloadPluginsSpec {
     modrinth("interactionvisualizer", "1.18.13")
     url("https://github.com/Ifiht/Cardinal/raw/refs/heads/main/plugin_jars/mc1-21-1/LuckPerms-Bukkit-5.4.131.jar")
     modrinth("lunamatic", "1.2.0")
-    url("https://cdn.discordapp.com/attachments/1317024623484735509/1335979424155308083/multiverse-core-5.0.0-alpha.14.jar?ex=67a8bacc&is=67a7694c&hm=d88535a05e52368035bd394d834df626e9e867687a4f6bc7d16dd41630599eac&")
-    url("https://cdn.discordapp.com/attachments/1317024623484735509/1335979424482590773/multiverse-inventories-5.0.0-alpha.14.jar?ex=67a8bacc&is=67a7694c&hm=81e1693a15be18639d73d1f4729cd610d928f389988f0aed767aa67967693021&")
-    url("https://cdn.discordapp.com/attachments/1317024623484735509/1335979424830459925/multiverse-netherportals-5.0.0-alpha.14.jar?ex=67a8bacc&is=67a7694c&hm=0bfd2375fcf4151c55370db6420bd5f94dd1bc3cea6ca7fa37c350d98162a26b&")
-    url("https://cdn.discordapp.com/attachments/1317024623484735509/1335979425153417287/multiverse-portals-5.0.0-alpha.14.jar?ex=67a8bacc&is=67a7694c&hm=1e424cd90159ba9e49a7966d05f1f8b82879fc5b17949762b825c9a0f4540534&")
-    url("https://github.com/Ifiht/OpeNLogin/releases/download/v4.0.0/OpenLogin-4.0.0.jar")
+    url("https://cdn.discordapp.com/attachments/1317024623484735509/1338130058572857394/multiverse-core-5.0.0-alpha.15.jar?ex=67a9f63b&is=67a8a4bb&hm=de3556d88c8098549add7adb9d1a43aaeafdf73f09a4e08f8c32d7bfdd964bba&") // MV5-CORE
+    url("https://cdn.discordapp.com/attachments/1317024623484735509/1338130059063463936/multiverse-inventories-5.0.0-alpha.15.jar?ex=67ab47bb&is=67a9f63b&hm=4e25df9f56a6818f167c125cbaf974dc43c6210629eddaae5baf3727d5178ad4&") // MV5-INVENTORIES
+    url("https://cdn.discordapp.com/attachments/1317024623484735509/1338130060531728486/multiverse-portals-5.0.0-alpha.15.jar?ex=67ab47bb&is=67a9f63b&hm=e5bf2184a761ee7e9496e408e415a63f83ae9b84c4ac234679c6096aa8085721&") // MV5-PORTALS
+    url("https://cdn.discordapp.com/attachments/1317024623484735509/1338130059889741865/multiverse-netherportals-5.0.0-alpha.15.jar?ex=67ab47bb&is=67a9f63b&hm=eba127435ef0fea811d04a054248e5a1a74248e78ac3d626da5aa2365bfebfac&") // MV5-NETHERPORTALS
+    url("https://drive.google.com/file/d/122f61aaEhutK6KIsO8H1e01SQR1-q1Fc/view?usp=sharing") // TERRA
     modrinth("seemore", "1.0.2")
     modrinth("simple-voice-chat", "bukkit-2.5.26")
     modrinth("soul-graves", "1.2.1")
     url("https://cdn.modrinth.com/data/PFb7ZqK6/versions/DB47ULQI/squaremap-paper-mc1.21.4-1.3.4.jar")
-    modrinth("terra", "6.5.1-BETA-bukkit")
+    url("https://github.com/Ifiht/Cardinal/blob/main/plugin_jars/mc1-21-4/Terra-bukkit-6.5.1-BETA%2B0a952cff4-shaded.jar")
     modrinth("toolstats", "1.8.7")
     url("https://cdn.modrinth.com/data/1u6JkXh5/versions/4jRlujfz/worldedit-bukkit-7.3.10.jar")
     modrinth("worldguard", "7.0.13-beta-2")
