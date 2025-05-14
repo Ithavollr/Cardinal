@@ -8,6 +8,7 @@ import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Syntax;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.WorldBorder;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -41,6 +42,21 @@ public class Cmd_tppos extends BaseCommand {
                 throw new InvalidCommandArgument("Coordinates must be within ±" + WORLD_LIMIT + ".");
             }
 
+            // Get world border
+            WorldBorder border = player.getWorld().getWorldBorder();
+            Location borderCenter = border.getCenter();
+            double borderRadius = border.getSize() / 2; // Border size is diameter, so divide by 2 for radius
+
+            // Calculate distance from border center
+            double distanceFromCenter = Math.sqrt(
+                    Math.pow(x - borderCenter.getX(), 2) + Math.pow(z - borderCenter.getZ(), 2)
+            );
+
+            // Validate that the location is inside the world border
+            if (distanceFromCenter > borderRadius) {
+                throw new InvalidCommandArgument("You cannot teleport outside the world border!");
+            }
+
             // Parse optional yaw
             float yaw = args.length == 4 ? Float.parseFloat(args[3]) : player.getLocation().getYaw();
 
@@ -49,18 +65,18 @@ public class Cmd_tppos extends BaseCommand {
             Location destination = new Location(player.getWorld(), x, y, z, yaw, origin.getPitch());
 
             int distance = (int)origin.distance(destination);
-            int exp = player.calculateTotalExperiencePoints();
-            if(distance >= exp) {
-                player.sendMessage("§c§lSYSTEM:§r§o§c You don't have enough experience to travel that far!");
+
+            if(player.isOp()) {
+                teleportPlayer(player, destination);
             } else {
-                // Show particles at the current location
-                playTeleportEffect(player.getLocation());
-                // Teleport the player
-                player.teleport(destination);
-                // Show particles at the target location
-                playTeleportEffect(destination);
-                player.setExperienceLevelAndProgress(exp  - distance);
-                player.sendMessage("§6Teleport cost: " + distance + "xp");
+                int exp = player.calculateTotalExperiencePoints();
+                if (distance >= exp) {
+                    player.sendMessage("§c§lSYSTEM:§r§o§c You don't have enough experience to travel that far!");
+                } else {
+                    teleportPlayer(player, destination);
+                    player.setExperienceLevelAndProgress(exp - distance);
+                    player.sendMessage("§6Teleport cost: " + distance + "xp");
+                }
             }
         } catch (NumberFormatException e) {
             throw new InvalidCommandArgument("All arguments must be valid numbers.");
@@ -68,6 +84,20 @@ public class Cmd_tppos extends BaseCommand {
     }
 
     //=============/ HELPER FUNCTIONS /=============//
+    /**
+     * Teleports a player.
+     *
+     * @param location The teleport destination.
+     */
+    private void teleportPlayer(Player player, Location location) {
+        // Show particles at the current location
+        playTeleportEffect(player.getLocation());
+        // Teleport the player
+        player.teleport(location);
+        // Show particles at the target location
+        playTeleportEffect(location);
+    }
+
     /**
      * Displays a portal-like effect using particles.
      *

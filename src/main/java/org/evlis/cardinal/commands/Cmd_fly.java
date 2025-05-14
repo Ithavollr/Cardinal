@@ -35,4 +35,32 @@ public class Cmd_fly extends BaseCommand {
             playerToToggle.sendMessage("Flying has been " + status + " by " + sender.getName() + ".");
         }
     }
+
+    @Subcommand("speed")
+    @Description("Change a player's fly speed.")
+    public void onFlySpeed(CommandSender sender, @Optional Player target, String speed) {
+        // Determine the target player
+        Player targetPlayer;
+        if (target == null) {
+            if (!(sender instanceof Player)) {
+                sender.sendMessage("You must specify a player when running this command from the console.");
+                return;
+            }
+            targetPlayer = (Player) sender;
+        } else {
+            targetPlayer = target;
+        }
+
+        // set flying speed
+        try {
+            float flyspeed = Float.parseFloat(speed);
+            if (flyspeed > 10 || flyspeed < 1) {
+                targetPlayer.sendMessage("Fly speed must be a number between 1 and 10.");
+                return;
+            }
+            targetPlayer.setFlySpeed(flyspeed / 10f);
+        } catch (NumberFormatException e) {
+            targetPlayer.sendMessage("ERROR: not a number or incorrect arguments.");
+        }
+    }
 }
