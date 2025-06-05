@@ -31,10 +31,15 @@ repositories {
         name = "jeff-media-public"
         url = URI("https://repo.jeff-media.com/public/")
     }
+    maven { // repo for Multiverse 5
+        name = "onarandombox-public"
+        url = URI("https://repo.onarandombox.com/content/groups/public/")
+    }
 }
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
+    compileOnly("org.mvplugins.multiverse.core:multiverse-core:5.0.0-SNAPSHOT")
     implementation("co.aikar:acf-paper:0.5.1-SNAPSHOT")
     implementation("org.slf4j:slf4j-simple:2.0.16")
     implementation("de.jeff_media:ChestSortAPI:13.0.0-SNAPSHOT")
@@ -143,10 +148,6 @@ tasks.register<RunServer>("runServerInteractive") {
     pluginJars.from(tasks.shadowJar)
 }
 
-// Start a local Folia server for manual testing
-runPaper.folia.registerTask {
-    minecraftVersion("1.20.6")
-}
 tasks.register("injectBotToken") {
     doLast {
         val token = System.getenv("BOT_API_TOKEN")
