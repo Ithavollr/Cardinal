@@ -66,31 +66,18 @@ buildscript {
     }
 }
 
-// Main Plugin List
+// Main Plugin List (core server needs only)
 val prodPlugins = runPaper.downloadPluginsSpec {
-    modrinth("auraskills", "2.2.4")
-    url("https://github.com/Ifiht/Cardinal/raw/refs/heads/main/plugin_jars/mc1-21-1/AuraMobs-4.0.8.jar")
-    url("https://github.com/Ifiht/Cardinal/raw/refs/heads/main/plugin_jars/mc1-21-1/ChestSort-14.1.2.jar")
     modrinth("chunky", "1.4.28")
-    modrinth("decentholograms", "2.8.12")
-    url("https://github.com/Ifiht/Cardinal/raw/refs/heads/main/plugin_jars/mc1-21-1/DHS-0.6.1_for_MC-1.21.1.jar")
-    modrinth("discordsrv", "1.29.0")
-    modrinth("interactionvisualizer", "1.18.13")
-    url("https://github.com/Ifiht/Cardinal/raw/refs/heads/main/plugin_jars/mc1-21-1/LuckPerms-Bukkit-5.4.131.jar")
-    modrinth("lunamatic", "1.2.0")
-    url("https://cdn.discordapp.com/attachments/1317024623484735509/1338130058572857394/multiverse-core-5.0.0-alpha.15.jar?ex=67a9f63b&is=67a8a4bb&hm=de3556d88c8098549add7adb9d1a43aaeafdf73f09a4e08f8c32d7bfdd964bba&") // MV5-CORE
-    url("https://cdn.discordapp.com/attachments/1317024623484735509/1338130059063463936/multiverse-inventories-5.0.0-alpha.15.jar?ex=67ab47bb&is=67a9f63b&hm=4e25df9f56a6818f167c125cbaf974dc43c6210629eddaae5baf3727d5178ad4&") // MV5-INVENTORIES
-    url("https://cdn.discordapp.com/attachments/1317024623484735509/1338130060531728486/multiverse-portals-5.0.0-alpha.15.jar?ex=67ab47bb&is=67a9f63b&hm=e5bf2184a761ee7e9496e408e415a63f83ae9b84c4ac234679c6096aa8085721&") // MV5-PORTALS
-    url("https://cdn.discordapp.com/attachments/1317024623484735509/1338130059889741865/multiverse-netherportals-5.0.0-alpha.15.jar?ex=67ab47bb&is=67a9f63b&hm=eba127435ef0fea811d04a054248e5a1a74248e78ac3d626da5aa2365bfebfac&") // MV5-NETHERPORTALS
-    url("https://drive.google.com/file/d/122f61aaEhutK6KIsO8H1e01SQR1-q1Fc/view?usp=sharing") // TERRA
-    modrinth("seemore", "1.0.2")
-    modrinth("simple-voice-chat", "bukkit-2.5.26")
-    modrinth("soul-graves", "1.2.1")
-    url("https://cdn.modrinth.com/data/PFb7ZqK6/versions/DB47ULQI/squaremap-paper-mc1.21.4-1.3.4.jar")
-    url("https://github.com/Ifiht/Cardinal/blob/main/plugin_jars/mc1-21-4/Terra-bukkit-6.5.1-BETA%2B0a952cff4-shaded.jar")
-    modrinth("toolstats", "1.8.7")
-    url("https://cdn.modrinth.com/data/1u6JkXh5/versions/4jRlujfz/worldedit-bukkit-7.3.10.jar")
-    modrinth("worldguard", "7.0.13-beta-2")
+    modrinth("luckperms", "v5.5.0-bukkit")
+    modrinth("lunamatic", "2.0.1")
+    modrinth("multiverse-core", "5.0.1")
+    modrinth("multiverse-inventories", "5.0.1")
+    modrinth("multiverse-portals", "5.0.1")
+    modrinth("multiverse-netherportals", "5.0.1")
+    modrinth("terra", "6.6.1-BETA-bukkit")
+    hangar("WorldEdit", "7.3.14")
+    modrinth("worldguard", "7.0.13")
 }
 
 // Plugin List for automated testing
@@ -134,7 +121,6 @@ tasks {
 // Test PaperMC run & immediately shut down, for github actions
 tasks.register<RunServer>("runServerTest") {
     dependsOn(tasks.shadowJar)
-    dependsOn(tasks.named("injectBotToken"))
     minecraftVersion("1.21.4")
     downloadPlugins.from(testPlugins)
     pluginJars.from(tasks.shadowJar)
@@ -142,32 +128,9 @@ tasks.register<RunServer>("runServerTest") {
 // Start a local PaperMC test server for login & manual testing
 tasks.register<RunServer>("runServerInteractive") {
     dependsOn(tasks.shadowJar)
-    dependsOn(tasks.named("injectBotToken"))
     minecraftVersion("1.21.4")
     downloadPlugins.from(prodPlugins)
     pluginJars.from(tasks.shadowJar)
-}
-
-tasks.register("injectBotToken") {
-    doLast {
-        val token = System.getenv("BOT_API_TOKEN")
-            ?: error("Environment variable BOT_API_TOKEN is not set.")
-
-        val yamlFile = file("run/plugins/DiscordSRV/config.yml")
-        val yaml = Yaml()
-
-        // Parse YAML
-        val data: MutableMap<String, Any> = yaml.load(yamlFile.readText())
-
-        // Update the token value
-        data["BotToken"] = token
-        val channels = data["Channels"] as? MutableMap<String, String>
-            ?: error("'Channels' key is missing or not a map in the YAML file.")
-        channels["global"] = "1320959908581081119"
-
-        // Write the YAML back
-        yamlFile.writeText(yaml.dump(data))
-    }
 }
 
 tasks.register("checkServerLogs") {

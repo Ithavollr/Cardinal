@@ -15,8 +15,7 @@ public class PlayerPortal implements Listener {
         World.Environment destinationEnv = event.getTo().getWorld().getEnvironment();
 
         // Check if the player is in the restricted world and trying to go to the Nether
-        if (GlobalVars.shatteredWorlds.contains(world.getName()) &&
-                destinationEnv == World.Environment.NETHER) {
+        if (destinationEnv == World.Environment.NETHER) {
             // Cancel the portal event to prevent travel
             event.setCancelled(true);
             player.sendMessage("§clSYSTEM:§roc This world is shattered!! Nether portals are broken, you cannot escape!");

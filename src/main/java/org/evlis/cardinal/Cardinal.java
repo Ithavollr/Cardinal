@@ -1,47 +1,56 @@
 package org.evlis.cardinal;
 
-import java.util.Set;
 import co.aikar.commands.PaperCommandManager;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.evlis.cardinal.commands.*;
 import org.evlis.cardinal.events.*;
-import org.evlis.cardinal.triggers.Scheduler;
+import org.evlis.cardinal.helpers.LogHandler;
+
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Cardinal extends JavaPlugin {
 
-    public static Cardinal Instance;
+    public static Cardinal instance;
 
-    public EntitySpawn entitySpawn;
     public PlayerPortal playerPortal;
     public PlayerInteract playerInteract;
     public WorldChange worldChange;
 
+    private static final Logger logger = Logger.getLogger(Cardinal.class.getName());
+
     @Override
     public void onLoad() {
-        Instance = this;
+        instance = this;
     }
 
     @Override
     public void onEnable() {
-        getLogger().info("Starting Cardinal on Minecraft version: " + Bukkit.getVersion());
-        getLogger().info("And Bukkit version: " + Bukkit.getBukkitVersion());
-        // Start Scheduler & any Shattered Worlds
-        Scheduler schedule = new Scheduler();
-        schedule.ShatterWorld(this);
+        logger.setUseParentHandlers(false); // Disable parent handlers to avoid duplicate logging
+        LogHandler handler = new LogHandler();
+        handler.setLevel(Level.ALL);
+        logger.addHandler(handler);
+        logger.info("Starting Cardinal on Minecraft version: " + Bukkit.getVersion());
+        logger.info("And Bukkit version: " + Bukkit.getBukkitVersion());
         // Initialize Event Variables
-        entitySpawn = new EntitySpawn();
         playerInteract = new PlayerInteract();
         playerPortal = new PlayerPortal();
         worldChange = new WorldChange();
         // Register Event Listeners
-        Bukkit.getServer().getPluginManager().registerEvents(entitySpawn, this);
         Bukkit.getServer().getPluginManager().registerEvents(playerPortal, this);
         Bukkit.getServer().getPluginManager().registerEvents(playerInteract, this);
         Bukkit.getServer().getPluginManager().registerEvents(worldChange, this);
         // Register Commands
         registerCommands();
+        // Copy resources
+        saveResource("wordlist.json", false);
+        // Config Initialization
+        saveDefaultConfig();
+        loadGlobalConfig();
+        // Assign instance variable
+        instance = this;
     }
 
     public void registerCommands() {
@@ -54,5 +63,26 @@ public class Cardinal extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+    }
+
+    public static Cardinal getInstance() {
+        return instance;
+    }
+
+    public void loadGlobalConfig() {
+        try {
+            // Set default values for missing keys
+            getConfig().addDefault("seaSalt", 1);
+
+            // Apply defaults if missing
+            getConfig().options().copyDefaults(true);
+            saveConfig();
+
+            // Load values into GlobalVars
+            GlobalVars.seaSalt = getConfig().getInt("seaSalt");
+        } catch (Exception e) {
+            logger.info("Failed to load configuration! Disabling plugin. Error: " + e.getMessage());
+            Bukkit.getPluginManager().disablePlugin(this);
+        }
     }
 }
