@@ -4,8 +4,11 @@ import java.net.URI
 
 plugins {
     java
+    id("com.github.ben-manes.versions") version "0.52.0"
+    //id("ca.cutterslade.analyze") version "1.10.0" // uncomment to check, fails build tho
     id("xyz.jpenilla.run-paper") version "2.3.1"
     id("com.gradleup.shadow") version "8.3.3"
+    id("org.flywaydb.flyway") version "11.9.1"
 }
 
 group = "org.evlis"
@@ -27,26 +30,25 @@ repositories {
         name = "aikars-framework"
         url = URI("https://repo.aikar.co/content/groups/aikar/")
     }
-    maven { // https://github.com/mfnalex/ChestSort/blob/master/HOW_TO_USE_API.md
-        name = "jeff-media-public"
-        url = URI("https://repo.jeff-media.com/public/")
-    }
     maven { // repo for Multiverse 5
         name = "onarandombox-public"
         url = URI("https://repo.onarandombox.com/content/groups/public/")
     }
 }
 
-dependencies {
+dependencies { // run ./gradlew dependencyUpdates to update, ./gradlew analyzeDependencies to check
     compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
-    compileOnly("org.mvplugins.multiverse.core:multiverse-core:5.0.0-SNAPSHOT")
+    compileOnly("org.mvplugins.multiverse.core:multiverse-core:5.0.1")
     implementation("co.aikar:acf-paper:0.5.1-SNAPSHOT")
-    implementation("org.slf4j:slf4j-simple:2.0.16")
-    implementation("de.jeff_media:ChestSortAPI:13.0.0-SNAPSHOT")
-    testImplementation("org.mockito:mockito-core:5.14.2")
-    testImplementation("org.mockbukkit.mockbukkit:mockbukkit-v1.21:4.0.0")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.0")
+    implementation("org.jdbi:jdbi3-core:3.49.4")
+    implementation("org.jdbi:jdbi3-sqlobject:3.49.4")
+    implementation("org.flywaydb:flyway-core:11.9.1")
+    testImplementation(platform("org.junit:junit-bom:5.13.0"))
+    testImplementation("org.mockito:mockito-core:5.18.0")
+    testImplementation("org.mockbukkit.mockbukkit:mockbukkit-v1.21:4.50.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.13.1")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.12.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.13.1")
 }
 
 java {
@@ -59,10 +61,9 @@ buildscript {
     repositories {
         mavenCentral()
     }
-
     dependencies {
         // Add dependencies for use in gradle itself
-        classpath("org.yaml:snakeyaml:2.3")
+        classpath("org.yaml:snakeyaml:2.4")
     }
 }
 

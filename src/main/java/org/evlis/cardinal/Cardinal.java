@@ -6,6 +6,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.evlis.cardinal.commands.*;
 import org.evlis.cardinal.events.*;
 import org.evlis.cardinal.helpers.LogHandler;
+import org.flywaydb.core.Flyway;
 
 import java.util.logging.Logger;
 
@@ -15,6 +16,7 @@ public class Cardinal extends JavaPlugin {
 
     public PlayerPortal playerPortal;
     public PlayerInteract playerInteract;
+    public PlayerJoin playerJoin;
     public WorldChange worldChange;
 
     private final Logger logger = getLogger();
@@ -26,6 +28,7 @@ public class Cardinal extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        // Initialize custom logger
         logger.setUseParentHandlers(false); // Disable parent handlers to avoid duplicate logging
         for (java.util.logging.Handler handler : logger.getHandlers()) {
             logger.removeHandler(handler);
@@ -34,13 +37,21 @@ public class Cardinal extends JavaPlugin {
         logger.addHandler(handler);
         logger.info("Starting Cardinal on Minecraft version: " + Bukkit.getVersion());
         logger.info("And Bukkit version: " + Bukkit.getBukkitVersion());
+        // Run db migrations
+        Flyway flyway = Flyway.configure()
+                .dataSource("jdbc:sqlite:users.db", null, null)
+                .locations("classpath:db/migration")
+                .load();
+        flyway.migrate();
         // Initialize Event Variables
-        playerInteract = new PlayerInteract();
         playerPortal = new PlayerPortal();
+        playerInteract = new PlayerInteract();
+        playerJoin = new PlayerJoin();
         worldChange = new WorldChange();
         // Register Event Listeners
         Bukkit.getServer().getPluginManager().registerEvents(playerPortal, this);
         Bukkit.getServer().getPluginManager().registerEvents(playerInteract, this);
+        Bukkit.getServer().getPluginManager().registerEvents(playerJoin, this);
         Bukkit.getServer().getPluginManager().registerEvents(worldChange, this);
         // Register Commands
         registerCommands();
