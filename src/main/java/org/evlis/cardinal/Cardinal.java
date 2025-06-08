@@ -83,7 +83,7 @@ public class Cardinal extends JavaPlugin {
     public void loadGlobalConfig() {
         try {
             // Set default values for missing keys
-            getConfig().addDefault("seaSalt", 1);
+            getConfig().addDefault("seaSalt", "one");
 
             // Apply defaults if missing
             getConfig().options().copyDefaults(true);
