@@ -1,2 +1,2 @@
 # Salt for password hashing
-seaSalt: 1
+seaSalt: "one"

@@ -5,7 +5,7 @@ import java.util.logging.LogRecord;
 
 public class LogFormatter extends Formatter {
     @Override
-    public String format(LogRecord record) {
+    public synchronized String format(LogRecord record) {
         String pluginString = "\033[38;5;203m[Cardinal] ";
         String levelColor;
         switch (record.getLevel().getName()) {

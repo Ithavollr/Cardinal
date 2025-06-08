@@ -11,7 +11,7 @@ import java.util.List;
 public class GlobalVars {
     static Plugin plugin = Cardinal.getInstance();
     public static final List<String> WORDLIST = slurpJson("wordlist.json", plugin);
-    public static int seaSalt = 1;
+    public static String seaSalt = "one";
 
     // Method to read JSON into a List<String>
     public static List<String> slurpJson(String fileName, Plugin plugin) {

@@ -37,10 +37,6 @@ public class PlayerTeleport implements Listener {
                     event.setCancelled(true);
                     player.sendMessage("§clSYSTEM:§roc You can only use a Bone of the Nether to teleport through this portal!");
                 }
-            } else {
-                // Cancel the portal event if no valid item is in hand
-                event.setCancelled(true);
-                player.sendMessage("§clSYSTEM:§roc You need a Bone of the Nether to use this portal!");
             }
         }
     }

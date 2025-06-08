@@ -7,8 +7,6 @@ import org.evlis.cardinal.commands.*;
 import org.evlis.cardinal.events.*;
 import org.evlis.cardinal.helpers.LogHandler;
 
-import java.util.ArrayList;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Cardinal extends JavaPlugin {
@@ -19,7 +17,7 @@ public class Cardinal extends JavaPlugin {
     public PlayerInteract playerInteract;
     public WorldChange worldChange;
 
-    private static final Logger logger = Logger.getLogger(Cardinal.class.getName());
+    private final Logger logger = getLogger();
 
     @Override
     public void onLoad() {
@@ -29,8 +27,10 @@ public class Cardinal extends JavaPlugin {
     @Override
     public void onEnable() {
         logger.setUseParentHandlers(false); // Disable parent handlers to avoid duplicate logging
+        for (java.util.logging.Handler handler : logger.getHandlers()) {
+            logger.removeHandler(handler);
+        }
         LogHandler handler = new LogHandler();
-        handler.setLevel(Level.ALL);
         logger.addHandler(handler);
         logger.info("Starting Cardinal on Minecraft version: " + Bukkit.getVersion());
         logger.info("And Bukkit version: " + Bukkit.getBukkitVersion());
@@ -79,7 +79,7 @@ public class Cardinal extends JavaPlugin {
             saveConfig();
 
             // Load values into GlobalVars
-            GlobalVars.seaSalt = getConfig().getInt("seaSalt");
+            GlobalVars.seaSalt = getConfig().getString("seaSalt");
         } catch (Exception e) {
             logger.info("Failed to load configuration! Disabling plugin. Error: " + e.getMessage());
             Bukkit.getPluginManager().disablePlugin(this);

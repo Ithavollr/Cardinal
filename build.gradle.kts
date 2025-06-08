@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "org.evlis"
-version = "0.5.4"
+version = "0.6.1"
 
 val targetJavaVersion = 21
 
