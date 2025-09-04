@@ -1,2 +1,6 @@
 # Salt for password hashing
 seaSalt: "one"
+# Name of the server.
+server-name: "My Server"
+# Custom login message.
+server-greeting: "My Greeting"

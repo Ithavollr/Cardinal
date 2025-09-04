@@ -12,7 +12,7 @@ plugins {
 }
 
 group = "org.evlis"
-version = "0.6.1"
+version = "0.6.2-SEED"
 
 val targetJavaVersion = 21
 
@@ -38,7 +38,10 @@ repositories {
 
 dependencies { // run ./gradlew dependencyUpdates to update, ./gradlew analyzeDependencies to check
     compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
-    compileOnly("org.mvplugins.multiverse.core:multiverse-core:5.0.1")
+    compileOnly("org.mvplugins.multiverse.core:multiverse-core:5.1.2")
+    compileOnly("org.mvplugins.multiverse.portals:multiverse-portals:5.1.0")
+    //compileOnly("com.onarandombox.multiversecore:multiverse-core:5.1.2")
+    //compileOnly("com.onarandombox.multiverseportals:multiverse-portals:5.1.0")
     implementation("co.aikar:acf-paper:0.5.1-SNAPSHOT")
     implementation("org.jdbi:jdbi3-core:3.49.4")
     implementation("org.jdbi:jdbi3-sqlobject:3.49.4")

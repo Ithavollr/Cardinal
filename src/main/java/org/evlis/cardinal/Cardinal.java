@@ -7,12 +7,18 @@ import org.evlis.cardinal.commands.*;
 import org.evlis.cardinal.events.*;
 import org.evlis.cardinal.helpers.LogHandler;
 import org.flywaydb.core.Flyway;
+import org.mvplugins.multiverse.core.MultiverseCore;
+import org.mvplugins.multiverse.core.MultiverseCoreApi;
+import org.mvplugins.multiverse.portals.MultiversePortalsApi;
 
 import java.util.logging.Logger;
 
 public class Cardinal extends JavaPlugin {
 
-    public static Cardinal instance;
+    private static Cardinal instance;
+
+    private static MultiverseCoreApi mv;
+    private static MultiversePortalsApi mvp;
 
     public PlayerPortal playerPortal;
     public PlayerInteract playerInteract;
@@ -24,6 +30,9 @@ public class Cardinal extends JavaPlugin {
     @Override
     public void onLoad() {
         instance = this;
+        // Assign Multiverse variables
+        mv = MultiverseCoreApi.get();
+        mvp = MultiversePortalsApi.get();
     }
 
     @Override
@@ -61,7 +70,7 @@ public class Cardinal extends JavaPlugin {
         saveDefaultConfig();
         loadGlobalConfig();
         // Assign instance variable
-        instance = this;
+        // instance = this;
     }
 
     public void registerCommands() {
@@ -74,10 +83,6 @@ public class Cardinal extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-    }
-
-    public static Cardinal getInstance() {
-        return instance;
     }
 
     public void loadGlobalConfig() {
@@ -96,4 +101,8 @@ public class Cardinal extends JavaPlugin {
             Bukkit.getPluginManager().disablePlugin(this);
         }
     }
+    // getters
+    public static Cardinal getInstance() { return instance; }
+    public static MultiverseCoreApi getMVCore() {return mv;}
+    public static MultiversePortalsApi getMVPortal() {return mvp;}
 }

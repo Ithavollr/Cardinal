@@ -1,5 +1,6 @@
 package org.evlis.cardinal.events;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.event.Listener;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -16,16 +17,19 @@ public class PlayerInteract implements Listener {
 
         //=========|| HERE ARE THE BLOCK INTERACTIONS ||=========//
         if (event.getClickedBlock() != null) {
+            Block clickedBlock = event.getClickedBlock();
             // try to craft a bottle o' enchanting
-            if (event.getClickedBlock().getType() == Material.ENCHANTING_TABLE) {
+            if (clickedBlock.getType() == Material.ENCHANTING_TABLE) {
                 EventHelpers.craftXPBottle(event);
             }
             // try to teleport to home dimension
-            if (event.getClickedBlock().getType() == Material.RESPAWN_ANCHOR) {
+            if (clickedBlock.getType() == Material.RESPAWN_ANCHOR) {
                 EventHelpers.makePortalKey(event);
+            }
+            // book interactions with lectern
+            if (clickedBlock.getType() == Material.LECTERN) {
+                EventHelpers.validateBook(event);
             }
         }
     }
-
-
 }
