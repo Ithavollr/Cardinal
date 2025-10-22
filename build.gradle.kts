@@ -12,7 +12,7 @@ plugins {
 }
 
 group = "org.evlis"
-version = "0.6.2-SEED"
+version = "0.6.3-SEED"
 
 val targetJavaVersion = 21
 

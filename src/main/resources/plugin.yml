@@ -1,7 +1,12 @@
 name: Cardinal
 version: ${version}
 main: org.evlis.cardinal.Cardinal
-api-version: '1.21'
-folia-supported: true
-softdepend: ['Multiverse-Core', 'Multiverse-Portals']
-load: STARTUP
+api-version: 1.21
+
+# We rely on MultiverseCoreApi at load and portals once running:
+depend: ['Multiverse-Core']
+depends: ['Multiverse-Core']
+softdepend: ['Multiverse-Portals']
+
+# For some reason the above does not work, so this is our failsafe:
+load: POSTWORLD

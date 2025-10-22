@@ -30,13 +30,13 @@ public class Cardinal extends JavaPlugin {
     @Override
     public void onLoad() {
         instance = this;
-        // Assign Multiverse variables
-        mv = MultiverseCoreApi.get();
-        mvp = MultiversePortalsApi.get();
     }
 
     @Override
     public void onEnable() {
+        // Assign Multiverse variables
+        mv = MultiverseCoreApi.get();
+        mvp = MultiversePortalsApi.get();
         // Initialize custom logger
         logger.setUseParentHandlers(false); // Disable parent handlers to avoid duplicate logging
         for (java.util.logging.Handler handler : logger.getHandlers()) {
