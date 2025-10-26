@@ -52,41 +52,30 @@ public class EventHelpers {
         }
     }
     // Used when interacting with a lectern to create a world
-    public static void validateBook(PlayerInteractEvent event) {
-        Player player = event.getPlayer();
-        World world = player.getWorld();
-
-        if (world.getName().equals("world_the_end")) {
-
-            ItemStack book = player.getInventory().getItemInMainHand();
-            // Check if the player is holding a book. If not, do nothing.
-            if (book.getType() != Material.WRITTEN_BOOK) {
-                return;
-            }
-            // Get the book's metadata from the item in hand.
-            BookMeta bookMeta = (BookMeta) book.getItemMeta();
-            if (bookMeta == null) {
-                return;
-            }
-            // Combine all pages of the book into a single string, separated by newlines.
-            String bookContent = String.join("\n", bookMeta.getPages());
-            // If the book is empty, there's no need to parse it.
-            if (bookContent.trim().isEmpty()) {
-                player.sendMessage("§c§lSYSTEM:§r§o§c " + "your book is empty...");
-            }
-            // Initialize the SnakeYAML parser. This is safely included with Bukkit/Spigot.
-            Yaml yaml = new Yaml();
-            try {
-                // Attempt to load the book's content as YAML.
-                // If it succeeds, the YAML is valid.
-                yaml.load(bookContent);
-                player.sendMessage("§c§lSYSTEM:§r§o§c " + "This is valid YAML.");
-            } catch (YAMLException e) {
-                // If a YAMLException is thrown, the content is not valid YAML.
-                player.sendMessage("§c§lSYSTEM:§r§o§c " + "your book is not formatted correctly...");
-                // For debugging, you can print the error to the console.
-                player.getServer().getLogger().warning("YAML Parse Error: " + e.getMessage());
-            }
+    public static void validateBook(PlayerInteractEvent event, Player player, World world, ItemStack book) {
+        // Get the book's metadata from the item in hand.
+        BookMeta bookMeta = (BookMeta) book.getItemMeta();
+        if (bookMeta == null) {
+            return;
+        }
+        // Combine all pages of the book into a single string, separated by newlines.
+        String bookContent = String.join("\n", bookMeta.getPages());
+        // If the book is empty, there's no need to parse it.
+        if (bookContent.trim().isEmpty()) {
+            player.sendMessage("§c§lSYSTEM:§r§o§c " + "your book is empty...");
+        }
+        // Initialize the SnakeYAML parser. This is safely included with Bukkit/Spigot.
+        Yaml yaml = new Yaml();
+        try {
+            // Attempt to load the book's content as YAML.
+            // If it succeeds, the YAML is valid.
+            yaml.load(bookContent);
+            player.sendMessage("§c§lSYSTEM:§r§o§c " + "This is valid YAML.");
+        } catch (YAMLException e) {
+            // If a YAMLException is thrown, the content is not valid YAML.
+            player.sendMessage("§c§lSYSTEM:§r§o§c " + "your book is not formatted correctly...");
+            // For debugging, you can print the error to the console.
+            player.getServer().getLogger().warning("YAML Parse Error: " + e.getMessage());
         }
     }
 }
