@@ -2,13 +2,18 @@ package org.evlis.cardinal;
 
 import co.aikar.commands.PaperCommandManager;
 import org.bukkit.Bukkit;
+import org.bukkit.Server;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.structure.StructureManager;
 import org.evlis.cardinal.commands.*;
 import org.evlis.cardinal.events.*;
 import org.evlis.cardinal.helpers.LogHandler;
 import org.flywaydb.core.Flyway;
 import org.mvplugins.multiverse.core.MultiverseCore;
 import org.mvplugins.multiverse.core.MultiverseCoreApi;
+import org.mvplugins.multiverse.netherportals.MultiverseNetherPortals;
+import org.mvplugins.multiverse.netherportals.MultiverseNetherPortalsPluginBinder;
 import org.mvplugins.multiverse.portals.MultiversePortalsApi;
 
 import java.util.logging.Logger;
@@ -19,6 +24,7 @@ public class Cardinal extends JavaPlugin {
 
     private static MultiverseCoreApi mv;
     private static MultiversePortalsApi mvp;
+    private static MultiverseNetherPortals mvnp;
 
     public PlayerPortal playerPortal;
     public PlayerInteract playerInteract;
@@ -37,6 +43,10 @@ public class Cardinal extends JavaPlugin {
         // Assign Multiverse variables
         mv = MultiverseCoreApi.get();
         mvp = MultiversePortalsApi.get();
+        RegisteredServiceProvider<MultiverseNetherPortals> provider = Bukkit.getServicesManager().getRegistration(MultiverseNetherPortals.class);
+        if (provider != null) {
+            MultiverseNetherPortals mvnp = provider.getProvider();
+        }
         // Initialize custom logger
         logger.setUseParentHandlers(false); // Disable parent handlers to avoid duplicate logging
         for (java.util.logging.Handler handler : logger.getHandlers()) {
@@ -105,4 +115,5 @@ public class Cardinal extends JavaPlugin {
     public static Cardinal getInstance() { return instance; }
     public static MultiverseCoreApi getMVCore() {return mv;}
     public static MultiversePortalsApi getMVPortal() {return mvp;}
+    public static MultiverseNetherPortals getMVNetherportal() {return mvnp;}
 }

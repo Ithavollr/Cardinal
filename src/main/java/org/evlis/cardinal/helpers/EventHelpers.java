@@ -1,15 +1,22 @@
 package org.evlis.cardinal.helpers;
 
+
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.error.YAMLException;
+import org.bukkit.plugin.Plugin;
+import org.evlis.cardinal.Cardinal;
+import org.evlis.cardinal.WorldOptions;
+import java.util.Set;
+
 
 public class EventHelpers {
+    static Plugin plugin = Cardinal.getInstance();
     // Used when interacting with an enchanting table
     public static void craftXPBottle(PlayerInteractEvent event) {
         Player player = event.getPlayer();
@@ -31,28 +38,8 @@ public class EventHelpers {
         player.getInventory().addItem(new ItemStack(Material.EXPERIENCE_BOTTLE)); // Add a bottle of enchanting
         event.setCancelled(true);
     }
-    // Used when interacting with a respawn anchor
-    public static void makePortalKey(PlayerInteractEvent event) {
-        Player player = event.getPlayer();
-        World world = player.getWorld();
-        World.Environment environment = world.getEnvironment();
-        ItemStack item = player.getInventory().getItemInMainHand();
-        // Check if the item in hand is a water bottle
-        if (item.getType() == Material.BONE) {
-            if (environment == World.Environment.NORMAL) {
-
-            }
-            if (environment == World.Environment.THE_END) {
-                return; // do nothing in the End
-            }
-            event.setCancelled(true);
-        } else if (environment == World.Environment.NORMAL || environment == World.Environment.THE_END) {
-            // cancel explosions in the Overworld and End
-            event.setCancelled(true);
-        }
-    }
     // Used when interacting with a lectern to create a world
-    public static void validateBook(PlayerInteractEvent event, Player player, World world, ItemStack book) {
+    public static void validateBook(PlayerInteractEvent event, Player player, World world, ItemStack book, Block lectern) {
         // Get the book's metadata from the item in hand.
         BookMeta bookMeta = (BookMeta) book.getItemMeta();
         if (bookMeta == null) {
@@ -63,19 +50,35 @@ public class EventHelpers {
         // If the book is empty, there's no need to parse it.
         if (bookContent.trim().isEmpty()) {
             player.sendMessage("§c§lSYSTEM:§r§o§c " + "your book is empty...");
+            return;
         }
-        // Initialize the SnakeYAML parser. This is safely included with Bukkit/Spigot.
-        Yaml yaml = new Yaml();
-        try {
-            // Attempt to load the book's content as YAML.
-            // If it succeeds, the YAML is valid.
-            yaml.load(bookContent);
-            player.sendMessage("§c§lSYSTEM:§r§o§c " + "This is valid YAML.");
-        } catch (YAMLException e) {
-            // If a YAMLException is thrown, the content is not valid YAML.
-            player.sendMessage("§c§lSYSTEM:§r§o§c " + "your book is not formatted correctly...");
-            // For debugging, you can print the error to the console.
-            player.getServer().getLogger().warning("YAML Parse Error: " + e.getMessage());
+        // Check book contents, get world options:
+        WorldOptions options = BookValidator.parse(bookContent, player);
+        if (options != null) {
+            // Check if the world exists:
+            Set<String> worldlist = WorldHelpers.list();
+            if (worldlist.contains(options.getWorldName())) {
+                WorldHelpers.updateMasterPortal(player, options.getWorldName());
+            } else { //========[ CREATE THE WORLD ]========//
+                boolean success = false;
+                try {
+                    player.sendMessage("§c§lSYSTEM:§r§o§a " + "Creating world '" + options.getWorldName() + "'.");
+                    world.spawnParticle(Particle.END_ROD,
+                            lectern.getLocation().add(0, 0.9, 0), // Location at book base
+                            12, 0.0, 0.0, 0.0, 0.0 // Count 1, slight random offset, speed 0);
+                    );
+                    success = WorldHelpers.create(options);
+                } catch (Exception e){
+                    player.sendMessage("§c§lSYSTEM:§r§o§c An error occurred during world creation.");
+                    plugin.getLogger().severe("Error during world creation: " + e);
+                }
+                if (success) {
+                    player.sendMessage("§c§lSYSTEM:§r§o§a new world created.");
+                    WorldHelpers.updateMasterPortal(player, options.getWorldName());
+                } else {
+                    player.sendMessage("§c§lSYSTEM:§r§o§c world could not be created.");
+                }
+            }
         }
     }
 }

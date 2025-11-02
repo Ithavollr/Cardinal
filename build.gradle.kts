@@ -38,10 +38,16 @@ repositories {
 
 dependencies { // run ./gradlew dependencyUpdates to update, ./gradlew analyzeDependencies to check
     compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
-    compileOnly("org.mvplugins.multiverse.core:multiverse-core:5.1.2")
-    compileOnly("org.mvplugins.multiverse.portals:multiverse-portals:5.1.0")
-    //compileOnly("com.onarandombox.multiversecore:multiverse-core:5.1.2")
-    //compileOnly("com.onarandombox.multiverseportals:multiverse-portals:5.1.0")
+    // Multiverse
+    compileOnly("org.mvplugins.multiverse.core:multiverse-core:5.3.3")
+    compileOnly("org.mvplugins.multiverse.portals:multiverse-portals:5.1.1")
+    compileOnly("org.mvplugins.multiverse.netherportals:multiverse-netherportals:5.0.3")
+    // Lombok - simplify getting and setting in DTOs:
+    compileOnly("org.projectlombok:lombok:1.18.42")
+    annotationProcessor("org.projectlombok:lombok:1.18.42")
+    testCompileOnly("org.projectlombok:lombok:1.18.42")
+    testAnnotationProcessor("org.projectlombok:lombok:1.18.42")
+    // post-compiles
     implementation("co.aikar:acf-paper:0.5.1-SNAPSHOT")
     implementation("org.jdbi:jdbi3-core:3.49.4")
     implementation("org.jdbi:jdbi3-sqlobject:3.49.4")
@@ -74,11 +80,11 @@ buildscript {
 val prodPlugins = runPaper.downloadPluginsSpec {
     modrinth("chunky", "1.4.28")
     modrinth("luckperms", "v5.5.0-bukkit")
-    modrinth("lunamatic", "2.0.1")
-    modrinth("multiverse-core", "5.0.1")
-    modrinth("multiverse-inventories", "5.0.1")
-    modrinth("multiverse-portals", "5.0.1")
-    modrinth("multiverse-netherportals", "5.0.1")
+    modrinth("lunamatic", "2.0.7")
+    modrinth("multiverse-core", "5.3.3")
+    modrinth("multiverse-inventories", "5.2.0")
+    modrinth("multiverse-portals", "5.1.1")
+    modrinth("multiverse-netherportals", "5.0.3")
     modrinth("terra", "6.6.1-BETA-bukkit")
     hangar("WorldEdit", "7.3.14")
     modrinth("worldguard", "7.0.13")

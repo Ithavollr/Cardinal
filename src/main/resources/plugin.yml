@@ -6,7 +6,7 @@ api-version: 1.21
 # We rely on MultiverseCoreApi at load and portals once running:
 depend: ['Multiverse-Core']
 depends: ['Multiverse-Core']
-softdepend: ['Multiverse-Portals']
+softdepend: ['Multiverse-Portals', 'Multiverse-Netherportals']
 
 # For some reason the above does not work, so this is our failsafe:
 load: POSTWORLD

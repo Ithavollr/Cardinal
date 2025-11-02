@@ -25,10 +25,6 @@ public class PlayerInteract implements Listener {
             if (clickedBlock.getType() == Material.ENCHANTING_TABLE) {
                 EventHelpers.craftXPBottle(event);
             }
-            // try to teleport to home dimension
-            if (clickedBlock.getType() == Material.RESPAWN_ANCHOR) {
-                EventHelpers.makePortalKey(event);
-            }
             // book interactions with lectern
             if (clickedBlock.getType() == Material.LECTERN) {
                 Player player = event.getPlayer();
@@ -38,7 +34,7 @@ public class PlayerInteract implements Listener {
                     ItemStack maybeBook = player.getInventory().getItemInMainHand();
                     // Check if the player is holding a book. If not, do nothing.
                     if (maybeBook.getType() == Material.WRITTEN_BOOK) {
-                        EventHelpers.validateBook(event, player, world, maybeBook);
+                        EventHelpers.validateBook(event, player, world, maybeBook, clickedBlock);
                     }
                 }
             }
