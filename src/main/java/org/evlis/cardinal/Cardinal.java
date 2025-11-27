@@ -12,6 +12,7 @@ import org.evlis.cardinal.helpers.LogHandler;
 import org.flywaydb.core.Flyway;
 import org.mvplugins.multiverse.core.MultiverseCore;
 import org.mvplugins.multiverse.core.MultiverseCoreApi;
+import org.mvplugins.multiverse.inventories.MultiverseInventoriesApi;
 import org.mvplugins.multiverse.netherportals.MultiverseNetherPortals;
 import org.mvplugins.multiverse.netherportals.MultiverseNetherPortalsPluginBinder;
 import org.mvplugins.multiverse.portals.MultiversePortalsApi;
@@ -24,12 +25,11 @@ public class Cardinal extends JavaPlugin {
 
     private static MultiverseCoreApi mv;
     private static MultiversePortalsApi mvp;
-    private static MultiverseNetherPortals mvnp;
+    private static MultiverseInventoriesApi mvi;
 
     public PlayerPortal playerPortal;
     public PlayerInteract playerInteract;
     public PlayerJoin playerJoin;
-    public WorldChange worldChange;
 
     private final Logger logger = getLogger();
 
@@ -43,10 +43,7 @@ public class Cardinal extends JavaPlugin {
         // Assign Multiverse variables
         mv = MultiverseCoreApi.get();
         mvp = MultiversePortalsApi.get();
-        RegisteredServiceProvider<MultiverseNetherPortals> provider = Bukkit.getServicesManager().getRegistration(MultiverseNetherPortals.class);
-        if (provider != null) {
-            MultiverseNetherPortals mvnp = provider.getProvider();
-        }
+        mvi = MultiverseInventoriesApi.get();
         // Initialize custom logger
         logger.setUseParentHandlers(false); // Disable parent handlers to avoid duplicate logging
         for (java.util.logging.Handler handler : logger.getHandlers()) {
@@ -66,16 +63,14 @@ public class Cardinal extends JavaPlugin {
         playerPortal = new PlayerPortal();
         playerInteract = new PlayerInteract();
         playerJoin = new PlayerJoin();
-        worldChange = new WorldChange();
         // Register Event Listeners
         Bukkit.getServer().getPluginManager().registerEvents(playerPortal, this);
         Bukkit.getServer().getPluginManager().registerEvents(playerInteract, this);
         Bukkit.getServer().getPluginManager().registerEvents(playerJoin, this);
-        Bukkit.getServer().getPluginManager().registerEvents(worldChange, this);
         // Register Commands
         registerCommands();
         // Copy resources
-        saveResource("wordlist.json", false);
+        // saveResource("wordlist.json", false);
         // Config Initialization
         saveDefaultConfig();
         loadGlobalConfig();
@@ -115,5 +110,5 @@ public class Cardinal extends JavaPlugin {
     public static Cardinal getInstance() { return instance; }
     public static MultiverseCoreApi getMVCore() {return mv;}
     public static MultiversePortalsApi getMVPortal() {return mvp;}
-    public static MultiverseNetherPortals getMVNetherportal() {return mvnp;}
+    public static MultiverseInventoriesApi getMVInventory() {return mvi;}
 }

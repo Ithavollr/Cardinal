@@ -12,7 +12,7 @@ plugins {
 }
 
 group = "org.evlis"
-version = "0.7.0-SEED"
+version = "0.7.3-SEED"
 
 val targetJavaVersion = 21
 
@@ -25,6 +25,10 @@ repositories {
     maven {
         name = "sonatype"
         url = URI("https://oss.sonatype.org/content/groups/public/")
+    }
+    maven {
+        name = "citizens-repo"
+        url = URI("https://maven.citizensnpcs.co/repo")
     }
     maven { // https://github.com/aikar/commands/wiki
         name = "aikars-framework"
@@ -41,12 +45,17 @@ dependencies { // run ./gradlew dependencyUpdates to update, ./gradlew analyzeDe
     // Multiverse
     compileOnly("org.mvplugins.multiverse.core:multiverse-core:5.3.3")
     compileOnly("org.mvplugins.multiverse.portals:multiverse-portals:5.1.1")
+    compileOnly("org.mvplugins.multiverse.inventories:multiverse-inventories:5.2.0")
     compileOnly("org.mvplugins.multiverse.netherportals:multiverse-netherportals:5.0.3")
     // Lombok - simplify getting and setting in DTOs:
     compileOnly("org.projectlombok:lombok:1.18.42")
     annotationProcessor("org.projectlombok:lombok:1.18.42")
     testCompileOnly("org.projectlombok:lombok:1.18.42")
     testAnnotationProcessor("org.projectlombok:lombok:1.18.42")
+    // Citizens 2
+    compileOnly("net.citizensnpcs:citizens-main:2.0.37-SNAPSHOT") {
+        exclude(group = "*", module = "*")
+    }
     // post-compiles
     implementation("co.aikar:acf-paper:0.5.1-SNAPSHOT")
     implementation("org.jdbi:jdbi3-core:3.49.4")
@@ -80,7 +89,7 @@ buildscript {
 val prodPlugins = runPaper.downloadPluginsSpec {
     modrinth("chunky", "1.4.28")
     modrinth("luckperms", "v5.5.0-bukkit")
-    modrinth("lunamatic", "2.0.7")
+    modrinth("lunamatic", "2.0.8")
     modrinth("multiverse-core", "5.3.3")
     modrinth("multiverse-inventories", "5.2.0")
     modrinth("multiverse-portals", "5.1.1")

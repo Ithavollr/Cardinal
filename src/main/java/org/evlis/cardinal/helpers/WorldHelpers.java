@@ -12,6 +12,10 @@ import org.mvplugins.multiverse.core.utils.result.Attempt;
 import org.mvplugins.multiverse.core.world.LoadedMultiverseWorld;
 import org.mvplugins.multiverse.core.world.options.CreateWorldOptions;
 import org.mvplugins.multiverse.core.world.reasons.CreateFailureReason;
+import org.mvplugins.multiverse.inventories.MultiverseInventoriesApi;
+import org.mvplugins.multiverse.inventories.profile.group.WorldGroup;
+import org.mvplugins.multiverse.inventories.profile.group.WorldGroupManager;
+import org.mvplugins.multiverse.inventories.share.Sharables;
 import org.mvplugins.multiverse.netherportals.MultiverseNetherPortals;
 import org.mvplugins.multiverse.portals.MVPortal;
 import org.mvplugins.multiverse.portals.MultiversePortals;
@@ -30,6 +34,7 @@ public class WorldHelpers {
     static Plugin plugin = Cardinal.getInstance();
     static MultiverseCoreApi mv = Cardinal.getMVCore();
     static MultiversePortalsApi mvp = Cardinal.getMVPortal();
+    static MultiverseInventoriesApi mvi = Cardinal.getMVInventory();
 
     public static boolean create(WorldOptions options) {
         Attempt<LoadedMultiverseWorld, CreateFailureReason> newWorld = mv.getWorldManager().createWorld(
@@ -48,6 +53,11 @@ public class WorldHelpers {
             plugin.getLogger().info("World " + newWorld.get().getName() + " created successfully.");
             plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), "mvnp link nether " + newWorld.get().getName() + " world_nether");
             plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), "mvnp link end " + newWorld.get().getName() + " world_the_end");
+            WorldGroupManager groupMgr = mvi.getWorldGroupManager();
+            WorldGroup survival = groupMgr.getGroup("survival");
+            survival.addWorld(newWorld.get().getName());
+            survival.getShares().addAll(Sharables.allOf());
+            groupMgr.updateGroup(survival);
             //mvnp.addWorldLink(options.getWorldName(), "world_nether", PortalType.NETHER);
             //mvnp.addWorldLink(options.getWorldName(), "world_the_end", PortalType.END_GATEWAY);
             return true;
