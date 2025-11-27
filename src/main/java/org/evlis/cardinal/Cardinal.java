@@ -8,6 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.structure.StructureManager;
 import org.evlis.cardinal.commands.*;
 import org.evlis.cardinal.events.*;
+import org.evlis.cardinal.helpers.Database;
 import org.evlis.cardinal.helpers.LogHandler;
 import org.flywaydb.core.Flyway;
 import org.mvplugins.multiverse.core.MultiverseCore;
@@ -26,6 +27,8 @@ public class Cardinal extends JavaPlugin {
     private static MultiverseCoreApi mv;
     private static MultiversePortalsApi mvp;
     private static MultiverseInventoriesApi mvi;
+
+    private static Database database;
 
     public PlayerPortal playerPortal;
     public PlayerInteract playerInteract;
@@ -53,12 +56,20 @@ public class Cardinal extends JavaPlugin {
         logger.addHandler(handler);
         logger.info("Starting Cardinal on Minecraft version: " + Bukkit.getVersion());
         logger.info("And Bukkit version: " + Bukkit.getBukkitVersion());
+        // Ensure data folder exists
+        if (!getDataFolder().exists()) {
+            getDataFolder().mkdirs();
+        }
+        // Define the DB URL relative to the plugin's data folder
+        String dbUrl = "jdbc:sqlite:" + getDataFolder().getPath() + "/users.db";
         // Run db migrations
         Flyway flyway = Flyway.configure()
                 .dataSource("jdbc:sqlite:users.db", null, null)
                 .locations("classpath:db/migration")
                 .load();
         flyway.migrate();
+        // Initialize Database class
+        database = new Database(dbUrl);
         // Initialize Event Variables
         playerPortal = new PlayerPortal();
         playerInteract = new PlayerInteract();
@@ -87,7 +98,10 @@ public class Cardinal extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        // Shutdown the database executor gracefully
+        if (database != null) {
+            database.shutdown();
+        }
     }
 
     public void loadGlobalConfig() {
@@ -111,4 +125,5 @@ public class Cardinal extends JavaPlugin {
     public static MultiverseCoreApi getMVCore() {return mv;}
     public static MultiversePortalsApi getMVPortal() {return mvp;}
     public static MultiverseInventoriesApi getMVInventory() {return mvi;}
+    public static Database getDatabase() {return database;}
 }
