@@ -61,10 +61,10 @@ public class Cardinal extends JavaPlugin {
             getDataFolder().mkdirs();
         }
         // Define the DB URL relative to the plugin's data folder
-        String dbUrl = "jdbc:sqlite:" + getDataFolder().getPath() + "/users.db";
+        String dbUrl = "jdbc:sqlite:" + getDataFolder().getPath() + "/players.db";
         // Run db migrations
         Flyway flyway = Flyway.configure()
-                .dataSource("jdbc:sqlite:users.db", null, null)
+                .dataSource(dbUrl, null, null)
                 .locations("classpath:db/migration")
                 .load();
         flyway.migrate();

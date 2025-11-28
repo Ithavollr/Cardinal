@@ -21,6 +21,7 @@ public class Database {
         // Initialize the Single-Thread Executor
         // This ensures all tasks submitted to it are run one-by-one, in order.
         this.dbExecutor = Executors.newSingleThreadExecutor();
+        this.createPlayerTable();
 
         // Optional: test connection on startup
         try {
