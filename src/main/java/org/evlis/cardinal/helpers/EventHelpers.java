@@ -58,7 +58,7 @@ public class EventHelpers {
             // Check if the world exists:
             Set<String> worldlist = WorldHelpers.list();
             if (worldlist.contains(options.getWorldName())) {
-                WorldHelpers.updateMasterPortal(player, options.getWorldName());
+                WorldHelpers.updateMasterPortal(options.getWorldName());
             } else { //========[ CREATE THE WORLD ]========//
                 boolean success = false;
                 try {
@@ -74,7 +74,7 @@ public class EventHelpers {
                 }
                 if (success) {
                     player.sendMessage("§c§lSYSTEM:§r§o§a new world created.");
-                    WorldHelpers.updateMasterPortal(player, options.getWorldName());
+                    WorldHelpers.updateMasterPortal(options.getWorldName());
                 } else {
                     player.sendMessage("§c§lSYSTEM:§r§o§c world could not be created.");
                 }

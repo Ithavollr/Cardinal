@@ -73,14 +73,19 @@ public class WorldHelpers {
         }
         return worlds;
     }
-    public static void updateMasterPortal(Player player, String dest) {
+    public static void updateMasterPortal(String dest) {
         try {
             PortalManager mgr = mvp.getPortalManager();
             MVPortal mport = mgr.getPortal("master_portal");
             mport.setDestination(dest);
-            player.sendMessage("§c§lSYSTEM:§r§o§d " + "the portal now leads to: " + dest);
+            plugin.getServer().getWorld("world_the_end").getPlayers().forEach(p ->
+                    p.sendMessage("§c§lSYSTEM:§r§o§d " + "the portal now leads to: " + dest)
+            );
+            // player.sendMessage("§c§lSYSTEM:§r§o§d " + "the portal now leads to: " + dest);
         } catch (Exception e) {
-            player.sendMessage("§c§lSYSTEM:§r§o§c " + "failed to set portal destination..");
+            plugin.getServer().getWorld("world_the_end").getPlayers().forEach(p ->
+                    p.sendMessage("§c§lSYSTEM:§r§o§c " + "failed to set portal destination..")
+            );
             plugin.getLogger().severe("Failed to set portal destination: " + e);
         }
     }
