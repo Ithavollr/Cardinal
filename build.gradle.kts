@@ -11,8 +11,8 @@ plugins {
     id("org.flywaydb.flyway") version "11.9.1"
 }
 
-group = "org.evlis"
-version = "0.7.3-SEED"
+group = project.group
+version = project.version
 
 val targetJavaVersion = 21
 

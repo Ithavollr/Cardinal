@@ -5,7 +5,7 @@
 # This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
 
-name: Java CI with Gradle
+name: Gradle Build
 
 on:
   push:
@@ -18,7 +18,7 @@ jobs:
 
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
 
     steps:
     - uses: actions/checkout@v4
@@ -43,31 +43,41 @@ jobs:
       run: ./gradlew checkServerLogs
 
     # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
-    # If your project does not have the Gradle Wrapper configured, you can use the following configuration to run Gradle with a specified version.
-    #
-    # - name: Setup Gradle
-    #   uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
-    #   with:
-    #     gradle-version: '8.9'
-    #
-    # - name: Build with Gradle 8.9
-    #   run: gradle build
-
-  dependency-submission:
-
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-
-    steps:
-    - uses: actions/checkout@v4
-    - name: Set up JDK 21
-      uses: actions/setup-java@v4
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
       with:
-        java-version: '21'
-        distribution: 'temurin'
+        name: cardinal-${{ github.sha }} # Unique name based on commit SHA
+        path: build/libs/*SEED.jar # Adjust path if your artifact is a WAR, ZIP, etc.
+        retention-days: 1 # Only keep it for a short time since the release workflow will use it
 
-    # Generates and submits a dependency graph, enabling Dependabot Alerts for all project dependencies.
-    # See: https://github.com/gradle/actions/blob/main/dependency-submission/README.md
-    - name: Generate and submit dependency graph
-      uses: gradle/actions/dependency-submission@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
+    # === Conditional Release Step ===
+    - name: Check for release commit
+      id: check_release
+      run: |
+        COMMIT_MSG="${{ github.event.head_commit.message }}"
+        if [[ "$COMMIT_MSG" == RELEASE:* ]]; then
+          echo "is_release=true" >> $GITHUB_OUTPUT
+        else
+          echo "is_release=false" >> $GITHUB_OUTPUT
+        fi
+      
+
+    # === Read version from VERSION file ===
+    - name: Read version from VERSION file
+      if: steps.check_release.outputs.is_release == 'true'
+      id: get_version
+      run: |
+        VERSION=$(cat VERSION | tr -d '[:space:]')
+        if [ -z "$VERSION" ]; then
+          echo "ERROR: VERSION file is empty or missing"
+          exit 1
+        fi
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+    # === Create the release ===
+    - name: Create GitHub Release
+      if: steps.check_release.outputs.is_release == 'true'
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: v${{ steps.get_version.outputs.version }}
+        name: v${{ steps.get_version.outputs.version }}
+        files: build/libs/*SEED.jar
