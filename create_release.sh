@@ -65,7 +65,7 @@ LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null)
 if [ $? -ne 0 ] || [ -z "$LATEST_TAG" ]; then
     echo "No existing Git tags found in this repository."
     LATEST_TAG="none"
-    SUGGESTED_TAG="$v1.0.0"
+    SUGGESTED_TAG="1.0.0"
 else
     echo "Latest existing tag found: $LATEST_TAG"
     SUGGESTED_TAG=$(suggest_next_version "$LATEST_TAG" "$DEFAULT_INCREMENT")
